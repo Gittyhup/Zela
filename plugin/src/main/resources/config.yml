@@ -1,0 +1,294 @@
+# =============================================================================
+#  ZelaHub — everything the lobby does, in one file.
+#  All text uses MiniMessage:  <#8B45F0>purple</#8B45F0>, <bold>, <gradient:a:b>
+#  Reload with /zelahub reload
+# =============================================================================
+
+# Brand colours — change these three and the whole lobby follows.
+colors:
+  accent: '#8B45F0'
+  accent-light: '#B57CFF'
+  dim: '#6F6488'
+
+spawn:
+  # Filled in by /zelahub setspawn — no need to touch this.
+  world: world
+  x: 0.5
+  y: 100.0
+  z: 0.5
+  yaw: 0.0
+  pitch: 0.0
+  # Players below this Y are sent back to spawn (void protection).
+  void-y: 0
+
+join:
+  # <player> is replaced with the name. Set to "" to disable a line.
+  message: '<#6F6488>[<#B57CFF>+</#B57CFF>]</#6F6488> <white><player></white>'
+  quit-message: '<#6F6488>[<#FF5D7A>-</#FF5D7A>]</#6F6488> <gray><player></gray>'
+  clear-inventory: true
+  teleport-to-spawn: true
+  heal: true
+  gamemode-adventure: true
+  # Sent to the player only.
+  welcome:
+    - ''
+    - '  <gradient:#B57CFF:#8B45F0><bold>ZELA NETWORK</bold></gradient>'
+    - '  <#6F6488>zela.gg</#6F6488>'
+    - ''
+    - '  <white>Welcome, <#B57CFF><player></#B57CFF>.'
+    - '  <gray>Right-click the compass to pick a server.</gray>'
+    - ''
+  sound: ENTITY_PLAYER_LEVELUP
+  # Firework on join for ranked players (permission zela.rank.*)
+  firework-for-ranks: true
+
+# -----------------------------------------------------------------------------
+#  Tab list
+# -----------------------------------------------------------------------------
+tab:
+  enabled: true
+  refresh-ticks: 20
+  header:
+    - ''
+    - '<gradient:#B57CFF:#8B45F0><bold>ZELA NETWORK</bold></gradient>'
+    - '<#6F6488>zela.gg</#6F6488>'
+    - ''
+  footer:
+    - ''
+    - '<gray>Players online <dark_gray>›</dark_gray> <#B57CFF><online></#B57CFF><#6F6488>/</#6F6488><gray><max></gray>'
+    - '<gray>Your ping <dark_gray>›</dark_gray> <#B57CFF><ping>ms</#B57CFF>'
+    - ''
+    - '<#6F6488>store.zela.gg</#6F6488>'
+    - ''
+  # How each player appears in the list. <rank> is the prefix below, <player> the name.
+  format: '<rank><white><player></white>'
+
+# -----------------------------------------------------------------------------
+#  Sidebar scoreboard
+# -----------------------------------------------------------------------------
+scoreboard:
+  enabled: true
+  refresh-ticks: 20
+  title: '<gradient:#B57CFF:#8B45F0><bold>ZELA</bold></gradient>'
+  lines:
+    - ''
+    - '<#6F6488>Player</#6F6488>'
+    - ' <white><player></white>'
+    - ''
+    - '<#6F6488>Rank</#6F6488>'
+    - ' <rank-name>'
+    - ''
+    - '<#6F6488>Online</#6F6488>'
+    - ' <white><online></white> <#6F6488>/ <max></#6F6488>'
+    - ''
+    - '<#B57CFF>zela.gg</#B57CFF>'
+
+# -----------------------------------------------------------------------------
+#  Ranks — checked top to bottom, first match wins.
+#  No permissions plugin required; works with LuckPerms or anything else that
+#  grants permission nodes. Give a player zela.rank.gold and they get GOLD.
+# -----------------------------------------------------------------------------
+ranks:
+  - id: owner
+    permission: zela.rank.owner
+    prefix: '<#FF5D7A><bold>OWNER</bold></#FF5D7A> <dark_gray>|</dark_gray> '
+    name: '<#FF5D7A>Owner</#FF5D7A>'
+    weight: 10
+  - id: admin
+    permission: zela.rank.admin
+    prefix: '<#F0B429><bold>ADMIN</bold></#F0B429> <dark_gray>|</dark_gray> '
+    name: '<#F0B429>Admin</#F0B429>'
+    weight: 20
+  - id: mod
+    permission: zela.rank.mod
+    prefix: '<#52E08A><bold>MOD</bold></#52E08A> <dark_gray>|</dark_gray> '
+    name: '<#52E08A>Mod</#52E08A>'
+    weight: 30
+  - id: netherite
+    permission: zela.rank.netherite
+    prefix: '<#B57CFF><bold>NETHERITE</bold></#B57CFF> <dark_gray>|</dark_gray> '
+    name: '<#B57CFF>Netherite</#B57CFF>'
+    weight: 40
+  - id: gold
+    permission: zela.rank.gold
+    prefix: '<#F0B429>GOLD</#F0B429> <dark_gray>|</dark_gray> '
+    name: '<#F0B429>Gold</#F0B429>'
+    weight: 50
+  - id: iron
+    permission: zela.rank.iron
+    prefix: '<#D8D2C6>IRON</#D8D2C6> <dark_gray>|</dark_gray> '
+    name: '<#D8D2C6>Iron</#D8D2C6>'
+    weight: 60
+  - id: coal
+    permission: zela.rank.coal
+    prefix: '<#9AA3B0>COAL</#9AA3B0> <dark_gray>|</dark_gray> '
+    name: '<#9AA3B0>Coal</#9AA3B0>'
+    weight: 70
+  - id: default
+    permission: ''            # empty = everyone matches
+    prefix: ''
+    name: '<gray>Player</gray>'
+    weight: 90
+
+# -----------------------------------------------------------------------------
+#  Hotbar items given on join.  slot is 0-8.
+#  action:  menu:<name>   opens a menu below
+#           command:<cmd> runs it as the player
+#           none
+# -----------------------------------------------------------------------------
+hotbar:
+  - slot: 0
+    material: COMPASS
+    name: '<#B57CFF><bold>Server Selector</bold></#B57CFF> <dark_gray>(Right click)</dark_gray>'
+    lore:
+      - '<gray>Choose where you are playing.</gray>'
+    action: 'menu:servers'
+    glow: true
+  - slot: 4
+    material: ENDER_CHEST
+    name: '<#F0B429><bold>Cosmetics</bold></#F0B429> <dark_gray>(Right click)</dark_gray>'
+    lore:
+      - '<gray>Trails and effects.</gray>'
+    action: 'menu:cosmetics'
+    glow: false
+  - slot: 7
+    material: NAME_TAG
+    name: '<#52E08A><bold>Settings</bold></#52E08A> <dark_gray>(Right click)</dark_gray>'
+    lore:
+      - '<gray>Toggle players, scoreboard and more.</gray>'
+    action: 'menu:settings'
+    glow: false
+  - slot: 8
+    material: LIME_DYE
+    name: '<#52E08A><bold>Players Visible</bold></#52E08A> <dark_gray>(Right click)</dark_gray>'
+    lore:
+      - '<gray>Hide everyone to clear the lobby.</gray>'
+    action: 'toggle:visibility'
+    glow: false
+
+# -----------------------------------------------------------------------------
+#  Menus
+# -----------------------------------------------------------------------------
+menus:
+  servers:
+    title: '<#B57CFF>Server Selector</#B57CFF>'
+    rows: 3
+    filler: BLACK_STAINED_GLASS_PANE
+    items:
+      - slot: 11
+        material: DIAMOND_SWORD
+        name: '<#B57CFF><bold>LEAGUES</bold></#B57CFF>'
+        lore:
+          - '<gray>Season 1</gray>'
+          - ''
+          - '<dark_gray>Opening soon.</dark_gray>'
+        # When you add a proxy, change this to  command:server leagues
+        action: 'message:<#6F6488>Leagues opens soon. Watch Discord.</#6F6488>'
+        glow: true
+      - slot: 13
+        material: NETHER_STAR
+        name: '<gradient:#B57CFF:#8B45F0><bold>ZELA HUB</bold></gradient>'
+        lore:
+          - '<gray>You are here.</gray>'
+        action: 'none'
+        glow: true
+      - slot: 15
+        material: GOLDEN_PICKAXE
+        name: '<#F0B429><bold>WICKEDSHIT</bold></#F0B429>'
+        lore:
+          - '<gray>Season 1</gray>'
+          - ''
+          - '<dark_gray>Opening soon.</dark_gray>'
+        action: 'message:<#6F6488>Wickedshit opens soon. Watch Discord.</#6F6488>'
+        glow: true
+
+  cosmetics:
+    title: '<#F0B429>Cosmetics</#F0B429>'
+    rows: 3
+    filler: BLACK_STAINED_GLASS_PANE
+    items:
+      - slot: 10
+        material: BARRIER
+        name: '<white>No Trail</white>'
+        lore: ['<gray>Turn trails off.</gray>']
+        action: 'trail:none'
+      - slot: 12
+        material: AMETHYST_SHARD
+        name: '<#B57CFF>Zela Trail</#B57CFF>'
+        lore: ['<gray>Purple sparks.</gray>']
+        action: 'trail:zela'
+        glow: true
+      - slot: 14
+        material: BLAZE_POWDER
+        name: '<#F0B429>Ember Trail</#F0B429>'
+        lore: ['<gray>Warm embers.</gray>']
+        action: 'trail:flame'
+      - slot: 16
+        material: HEART_OF_THE_SEA
+        name: '<#52E08A>Spark Trail</#52E08A>'
+        lore: ['<gray>Green sparks.</gray>']
+        action: 'trail:happy'
+
+  settings:
+    title: '<#52E08A>Settings</#52E08A>'
+    rows: 3
+    filler: BLACK_STAINED_GLASS_PANE
+    items:
+      - slot: 11
+        material: ENDER_EYE
+        name: '<white>Player Visibility</white>'
+        lore: ['<gray>Show or hide other players.</gray>']
+        action: 'toggle:visibility'
+      - slot: 13
+        material: PAPER
+        name: '<white>Scoreboard</white>'
+        lore: ['<gray>Show or hide the sidebar.</gray>']
+        action: 'toggle:scoreboard'
+      - slot: 15
+        material: FEATHER
+        name: '<white>Double Jump</white>'
+        lore: ['<gray>Turn the lobby jump on or off.</gray>']
+        action: 'toggle:doublejump'
+
+# -----------------------------------------------------------------------------
+#  Lobby mechanics
+# -----------------------------------------------------------------------------
+mechanics:
+  double-jump:
+    enabled: true
+    power: 1.0
+    up: 0.9
+    sound: ENTITY_BAT_TAKEOFF
+  launch-pads:
+    # Stand on this block to get launched.
+    enabled: true
+    material: SLIME_BLOCK
+    power: 2.4
+    up: 1.0
+    sound: ENTITY_FIREWORK_ROCKET_LAUNCH
+  # Blocks everything a lobby should block.
+  protect:
+    build: true
+    interact: true
+    damage: true
+    hunger: true
+    item-drop: true
+    item-pickup: true
+    weather: true
+    time-lock: 6000        # -1 to leave the clock alone
+    mob-spawning: true
+  chat:
+    enabled: true
+    format: '<rank><white><player></white> <dark_gray>»</dark_gray> <gray><message></gray>'
+
+# -----------------------------------------------------------------------------
+#  Resource pack — put the URL of your hosted ZelaPack.zip here.
+#  Leave url blank to disable the prompt entirely.
+# -----------------------------------------------------------------------------
+resource-pack:
+  url: ''
+  # SHA-1 hash of the zip. The README explains how to get it. Optional but
+  # strongly recommended — without it clients re-download the pack every join.
+  sha1: ''
+  required: false
+  prompt: '<#B57CFF>Accept the pack for the full Zela look.</#B57CFF>'
