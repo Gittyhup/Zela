@@ -1,0 +1,42 @@
+name: ZelaHub
+version: '${project.version}'
+main: gg.zela.hub.ZelaHub
+api-version: '1.21'
+author: Zela Network
+description: Lobby plugin for the Zela Network — menus, tab list, scoreboard, hub mechanics.
+folia-supported: false
+
+commands:
+  hub:
+    description: Teleport to hub spawn.
+    aliases: [lobby, spawn]
+  zelahub:
+    description: ZelaHub admin commands.
+    aliases: [zh]
+    permission: zela.admin
+    usage: /zelahub <reload|setspawn>
+
+permissions:
+  zela.admin:
+    description: Admin commands, and bypasses lobby protection.
+    default: op
+  zela.build:
+    description: Allows building in the lobby.
+    default: op
+  zela.fly:
+    description: Allows /fly-style flight (double jump still works without it).
+    default: op
+  zela.rank.owner:
+    default: false
+  zela.rank.admin:
+    default: false
+  zela.rank.mod:
+    default: false
+  zela.rank.netherite:
+    default: false
+  zela.rank.gold:
+    default: false
+  zela.rank.iron:
+    default: false
+  zela.rank.coal:
+    default: false
